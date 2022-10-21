@@ -1,10 +1,9 @@
 package com.example.petclinic.services;
 
+import com.example.petclinic.exceptions.NotFoundException;
+import com.example.petclinic.models.Owner;
 import com.example.petclinic.models.Pet;
-import com.example.petclinic.models.dtos.PetCreatedResponseDto;
-import com.example.petclinic.models.dtos.PetListDto;
-import com.example.petclinic.models.dtos.PetRequestDto;
-import com.example.petclinic.models.dtos.PetResponseDto;
+import com.example.petclinic.models.dtos.*;
 import com.example.petclinic.repositories.OwnerRepository;
 import com.example.petclinic.repositories.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +46,27 @@ public class PetServiceImpl implements PetService{
         Pet pet = petRepository.save(
                 new Pet(petRequestDto.getName(), petRequestDto.getType(),
                         petRequestDto.getSex(), ownerRepository.findById(petRequestDto.getOwnerId())
-                                .orElseThrow( () -> new UnsupportedOperationException ("No owner found")))
+                                .orElseThrow( () -> new NotFoundException ("No owner found")))
         );
         return new PetCreatedResponseDto(
                 pet.getPetId(),
                 pet.getName(),
                 pet.getOwner().getName()
         );
+    }
+
+    @Override
+    public PetUpdateResponseDto updatePetById(Long id, PetRequestDto petRequestDto) {
+        if(id == null) {
+            throw new NotFoundException("No pet found");
+        }
+        Pet petToUpdate = petRepository.findById(id).orElseThrow( () -> new NotFoundException("Pet doesn't exist"));
+        Owner owner = ownerRepository.findOwnerByOwnerId(petRequestDto.getOwnerId());
+        petToUpdate.setName(petRequestDto.getName());
+        petToUpdate.setType(petRequestDto.getType());
+        petToUpdate.setSex(petRequestDto.getSex());
+        petToUpdate.setOwner(owner);
+        petRepository.save(petToUpdate);
+        return new PetUpdateResponseDto("The owner of the pet has successfully changed");
     }
 }
