@@ -23,6 +23,12 @@ public class Owner {
     private String address;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Pet> pets;
+
+    public Owner(String name, String address, String phoneNumber) {
+        this.name = name;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+    }
 }
