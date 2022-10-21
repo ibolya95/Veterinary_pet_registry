@@ -52,4 +52,13 @@ public class OwnerServiceImpl implements OwnerService {
                 .orElseThrow( () -> new NotFoundException("Owner not found"));
         ownerRepository.delete(ownerToDelete);
     }
+
+    @Override
+    public void updateOwner(Long id, OwnerRequestDto ownerRequestDto) {
+        Owner ownerToUpdate = ownerRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("Owner not found"));
+        ownerToUpdate.setAddress(ownerRequestDto.getAddress());
+        ownerToUpdate.setPhoneNumber(ownerRequestDto.getPhone());
+        ownerRepository.save(ownerToUpdate);
+    }
 }

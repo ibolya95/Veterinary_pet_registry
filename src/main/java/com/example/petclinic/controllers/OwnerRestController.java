@@ -37,4 +37,9 @@ public class OwnerRestController {
     public void deleteOwner(@PathVariable Long ownerId) {
         ownerService.deleteOwner(ownerId);
     }
+
+    @PutMapping("/{ownerId}")
+    public void updateOwner(@PathVariable Long ownerId, @RequestBody OwnerRequestDto ownerRequestDto) {
+        ownerService.updateOwner(ownerId, ownerRequestDto);
+    }
 }

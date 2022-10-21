@@ -17,4 +17,6 @@ public interface OwnerService {
     OwnerCreatedResponseDto addNewOwner(OwnerRequestDto ownerRequestDto);
 
     void deleteOwner(Long id);
+
+    void updateOwner(Long id, OwnerRequestDto ownerRequestDto);
 }
