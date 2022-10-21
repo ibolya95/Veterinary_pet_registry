@@ -26,4 +26,10 @@ public class Pet {
     @JoinColumn(name="owner_id")
     private Owner owner;
 
+    public Pet(String name, String type, String sex, Owner owner) {
+        this.name = name;
+        this.type = type;
+        this.sex = sex;
+        this.owner = owner;
+    }
 }
