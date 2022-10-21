@@ -69,4 +69,12 @@ public class PetServiceImpl implements PetService{
         petRepository.save(petToUpdate);
         return new PetUpdateResponseDto("The owner of the pet has successfully changed");
     }
+
+    @Override
+    public PetDeleteResponseDto deletePet(Long id) {
+        Pet petToDelete = petRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("No pet found"));
+        petRepository.delete(petToDelete);
+        return new PetDeleteResponseDto("Pet has successfully deleted from the database");
+    }
 }

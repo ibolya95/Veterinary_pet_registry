@@ -1,9 +1,6 @@
 package com.example.petclinic.controllers;
 
-import com.example.petclinic.models.dtos.PetCreatedResponseDto;
-import com.example.petclinic.models.dtos.PetListDto;
-import com.example.petclinic.models.dtos.PetRequestDto;
-import com.example.petclinic.models.dtos.PetUpdateResponseDto;
+import com.example.petclinic.models.dtos.*;
 import com.example.petclinic.services.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +31,11 @@ public class PetRestController {
     public ResponseEntity<PetUpdateResponseDto> updatePet(@PathVariable Long petId,
                                                           @RequestBody PetRequestDto petRequestDto) {
         return new ResponseEntity<>(petService.updatePetById(petId, petRequestDto), HttpStatus.OK) ;
+    }
+
+    @DeleteMapping("/{petId}")
+    public ResponseEntity<PetDeleteResponseDto> deletePet(@PathVariable Long petId) {
+        return new ResponseEntity<>(petService.deletePet(petId), HttpStatus.NO_CONTENT);
     }
 
 
